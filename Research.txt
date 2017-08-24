@@ -1,0 +1,10 @@
+getting the Teensy to talk to unity
+http://codergirljp.blogspot.de/2014/05/teensy-31-accelerometer-control-game.html\
+
+Getting Midi to work in Unity if we want to try midi instead of keypresses
+https://github.com/keijiro/MidiJack
+
+
+The Gamepad Hack Tutorial
+https://learn.adafruit.com/usb-snes-gamepad/assemble-the-usb-snes-gamepad
+https://github.com/adafruit/USBgamepad
