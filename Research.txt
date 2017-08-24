@@ -8,3 +8,6 @@ https://github.com/keijiro/MidiJack
 The Gamepad Hack Tutorial
 https://learn.adafruit.com/usb-snes-gamepad/assemble-the-usb-snes-gamepad
 https://github.com/adafruit/USBgamepad
+
+Markup Language for Modular (could be handy for making a cheat sheet for puzzles)
+http://spektroaudio.com/blog/2017/8/22/introducing-patchbook-a-markup-language-for-modular-synth-patches
