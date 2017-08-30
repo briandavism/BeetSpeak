@@ -1,4 +1,4 @@
-﻿public enum InstrumentEnum
+﻿public enum Instrument
 {
 	Red,
 	Orange,
