@@ -7,7 +7,6 @@ namespace MusicalRepresentation
     public class Score : MonoBehaviour
     {
         public Image timeMarker;
-        public float measureLength;
 
         private List<Measure> _measures;
         private float _scoreLength;
@@ -15,7 +14,7 @@ namespace MusicalRepresentation
         private void Awake()
         {
             _measures = new List<Measure>(this.GetComponentsInChildren<Measure>());
-            _scoreLength = ((float) _measures.Count) * measureLength;
+            _scoreLength = ((float) _measures.Count) * MusicCore.Instance.measureLength;
         }
 
         private void Start()
@@ -29,7 +28,7 @@ namespace MusicalRepresentation
             var currentMeasure = GetMeasureAtTime(absoluteTime);
             timeMarker.transform.position = currentMeasure.GetLocationForTime(GetRelativeTime(absoluteTime));
 
-            var nextMeasure = GetMeasureAtTime(absoluteTime + measureLength);
+            var nextMeasure = GetMeasureAtTime(absoluteTime + MusicCore.Instance.measureLength);
             nextMeasure.ResetMeasure();
         }
 
@@ -50,14 +49,14 @@ namespace MusicalRepresentation
 
         private float GetRelativeTime(float absoluteTime)
         {
-            var timeInMeasure = absoluteTime % measureLength;
-            return timeInMeasure / measureLength;
+            var timeInMeasure = absoluteTime % MusicCore.Instance.measureLength;
+            return timeInMeasure / MusicCore.Instance.measureLength;
         }
 
         private Measure GetMeasureAtTime(float absoluteTime)
         {
             var timeInScore = absoluteTime % _scoreLength;
-            var measureNumber = Mathf.FloorToInt(timeInScore / measureLength);
+            var measureNumber = Mathf.FloorToInt(timeInScore / MusicCore.Instance.measureLength);
             return _measures[measureNumber];
         }
     }
