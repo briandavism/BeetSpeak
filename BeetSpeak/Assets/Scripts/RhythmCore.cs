@@ -16,7 +16,12 @@ public class RhythmCore : UnitySingleton<RhythmCore>
 	// Update is called once per frame
 	void Update ()
 	{
-	
+		_secondsSinceStart += Time.unscaledDeltaTime;
+	}
+
+	public float GetAbsoluteTime()
+	{
+		return _secondsSinceStart;
 	}
 }
 

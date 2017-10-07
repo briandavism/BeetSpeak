@@ -1,19 +1,29 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
 
-public class Note : System.IComparable
+public class Note : MonoBehaviour, System.IComparable
 {
 	public float hitTime;
 	public float visualLength;
+	public Image noteVisual;
 
 	private const float LEAD_TIME = .001f;
 	private const float TRAIL_TIME = .002f;
-
+	
+	private Color _color = Color.magenta;
 	private bool _wasHit = false;
+	private Row _row;
+	
+	public void Init(Color color, Row row)
+	{
+		_row = row;
+		_color = color;
+	}
 
 	public void Reset()
 	{
 		_wasHit = false;
+		noteVisual.color = Color.white;
 	}
 
 	public bool WasHit(float time)
@@ -21,6 +31,7 @@ public class Note : System.IComparable
 		if (!_wasHit)
 		{
 			_wasHit = ((hitTime - LEAD_TIME) < time) && (time < (hitTime + TRAIL_TIME));
+			noteVisual.color = _color;
 			return _wasHit;
 		}
 		else
