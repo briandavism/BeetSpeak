@@ -4,7 +4,7 @@ public class MusicCore : UnitySingleton<MusicCore>
 {
     public float leadTime = .001f;
     public float trailTime = .002f;
-    public float measureLength;
+    public float measureLength = 5f;
 
     private Score _score;
         
