@@ -10,9 +10,9 @@ public class Score : MonoBehaviour
     private float _scoreLength;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
-        _scoreLength == ((float)measures.Count) * measureLength;
+        _scoreLength = ((float)measures.Count) * measureLength;
     }
 	
     // Update is called once per frame

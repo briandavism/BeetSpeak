@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 public class RhythmCore : UnitySingleton<RhythmCore>
 {
-	private float secondsSinceStart;
+	private float _secondsSinceStart;
 
 
 	// Use this for initialization
