@@ -9,7 +9,7 @@ public class Row : MonoBehaviour
     public Miss missPrefab;
     public Image staffLineImage;
     private Color _color;
-    private List<Miss> _missesList = new List<Miss>();
+    private readonly List<Miss> _missesList = new List<Miss>();
     private int _goodHits = 0;
     private Measure _measure;
     private RectTransform _rectTransform;
@@ -42,6 +42,7 @@ public class Row : MonoBehaviour
     {
         _goodHits = 0;
         _missesList.ForEach(x => Object.Destroy(x.gameObject));
+        _missesList.Clear();
         notes.ForEach(x => x.Reset());
     }
 
@@ -62,6 +63,7 @@ public class Row : MonoBehaviour
 
         var miss = Object.Instantiate(missPrefab, _rectTransform);
         miss.transform.position = GetVectorLocationForTime(time);
+        _missesList.Add(miss);
     }
 
     public void SortNotes()
@@ -75,16 +77,13 @@ public class Row : MonoBehaviour
         //SortNotes();
         //var currentLatest = 0f;
 
-        for (int i = 0; i < notes.Count; i++)
+        for (var i = 0; i < notes.Count; i++)
         {
-            for (int j = 0; j < notes.Count; j++)
+            for (var j = 0; j < notes.Count; j++)
             {
-                if (j != i)
+                if ((j != i) && RhythmCore.DoNotesOverlap(notes[i], notes[j]))
                 {
-                    if (Note.DoNotesOverlap(notes[i], notes[j]))
-                    {
                         return false;
-                    }
                 }
             }
         }

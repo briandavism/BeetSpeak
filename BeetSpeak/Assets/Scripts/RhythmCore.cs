@@ -6,6 +6,8 @@ public class RhythmCore : UnitySingleton<RhythmCore>
 {
 	private float _secondsSinceStart;
 
+	public float LEAD_TIME = .001f;
+	public float TRAIL_TIME = .002f;
 
 	// Use this for initialization
 	void Start ()
@@ -22,6 +24,12 @@ public class RhythmCore : UnitySingleton<RhythmCore>
 	public float GetAbsoluteTime()
 	{
 		return _secondsSinceStart;
+	}
+	
+	public static bool DoNotesOverlap(Note a, Note b)
+	{
+		return (a.hitTime + RhythmCore.Instance.TRAIL_TIME) >= (b.hitTime - RhythmCore.Instance.LEAD_TIME) &&
+		       (b.hitTime + RhythmCore.Instance.TRAIL_TIME) >= (a.hitTime - RhythmCore.Instance.LEAD_TIME);
 	}
 }
 
