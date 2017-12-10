@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Configs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,31 +9,26 @@ namespace MusicalRepresentation
     public class Row : MonoBehaviour
     {
         public Miss missPrefab;
+        public Note notePrefab;
         public Image staffLineImage;
         public GameObject noteHolder;
+        public RectTransform rectTransform;
         private List<Note> _notes;
         private Color _color;
         private readonly List<Miss> _missesList = new List<Miss>();
         private int _goodHits = 0;
-        private Measure _measure;
-        private RectTransform _rectTransform;
 
-        private void Awake()
-        {
-            _measure = this.transform.GetComponentInParent<Measure>();
-            _rectTransform = (RectTransform) this.transform;
-
-            _notes = new List<Note>(gameObject.GetComponentsInChildren<Note>());
-        }
-
-        public void Init(Color color)
-        {
+        public void Init(Color color, List<NoteConfig> noteConfigs)
+        {            
             _color = color;
             staffLineImage.color = color;
-            foreach (var note in _notes)
+            _notes = new List<Note>();
+
+            foreach (var config in noteConfigs)
             {
-                note.Init(_color, this);
-                note.transform.position = GetVectorLocationForTime(note.hitTime);
+                var noteObj = Instantiate(notePrefab, noteHolder.transform);
+                noteObj.Init(_color, config, this);
+                _notes.Add(noteObj);
             }
         }
 
@@ -63,7 +59,7 @@ namespace MusicalRepresentation
                 return;
             }
 
-            var miss = Object.Instantiate<Miss>(missPrefab, _rectTransform);
+            var miss = Object.Instantiate<Miss>(missPrefab, rectTransform);
             miss.transform.position = GetVectorLocationForTime(time);
             miss.Init(time, _color);
             _missesList.Add(miss);
@@ -94,12 +90,12 @@ namespace MusicalRepresentation
             return true;
         }
 
-        private Vector3 GetVectorLocationForTime(float time)
+        public Vector3 GetVectorLocationForTime(float time)
         {
             var location = transform.position;
-            //Debug.Log("GetVectorLocationForTime: " + time + " between " + _rectTransform.rect.xMin + " and " +
-            //          _rectTransform.rect.xMax);
-            location.x += Mathf.Lerp(_rectTransform.rect.xMin, _rectTransform.rect.xMax, time);
+            //Debug.Log("GetVectorLocationForTime: " + time + " between " + rectTransform.rect.xMin + " and " +
+            //          rectTransform.rect.xMax);
+            location.x += Mathf.Lerp(rectTransform.rect.xMin, rectTransform.rect.xMax, time);
             return location;
         }
     }

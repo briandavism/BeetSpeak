@@ -1,4 +1,5 @@
-﻿using MusicalRepresentation;
+﻿using Configs;
+using MusicalRepresentation;
 
 public class MusicCore : UnitySingleton<MusicCore>
 {
@@ -13,6 +14,12 @@ public class MusicCore : UnitySingleton<MusicCore>
         _score = score;
     }
 
+    public void InitScore(SongConfig config)
+    {
+        measureLength = config.measureLength;
+        _score.Init(config);
+    }
+
     public void RecordHit(Instrument instrument, float absoluteTime)
     {
         _score.RecordHit(instrument, absoluteTime);
@@ -20,13 +27,13 @@ public class MusicCore : UnitySingleton<MusicCore>
     
     public static bool DoNotesOverlap(Note a, Note b)
     {
-        return (a.hitTime + MusicCore.Instance.trailTime) >= (b.hitTime - MusicCore.Instance.leadTime) &&
-               (b.hitTime + MusicCore.Instance.trailTime) >= (a.hitTime - MusicCore.Instance.leadTime);
+        return (a.HitTime + MusicCore.Instance.trailTime) >= (b.HitTime - MusicCore.Instance.leadTime) &&
+               (b.HitTime + MusicCore.Instance.trailTime) >= (a.HitTime - MusicCore.Instance.leadTime);
     }
 
     public static bool IsHit(Note a, float relativeTime)
     {
-        return ((a.hitTime - MusicCore.Instance.leadTime) < relativeTime) &&
-            (relativeTime < (a.hitTime + MusicCore.Instance.trailTime));
+        return ((a.HitTime - MusicCore.Instance.leadTime) < relativeTime) &&
+            (relativeTime < (a.HitTime + MusicCore.Instance.trailTime));
     }
 }

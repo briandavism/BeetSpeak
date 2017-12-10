@@ -1,0 +1,76 @@
+{
+    "measureLength": 1,
+    "measures": [
+        {
+            "notes": {
+                "1": [
+                    {
+                        "hitTime": 0
+                    },
+                    {
+                        "hitTime": 0.5
+                    }
+                ],
+                "3": [
+                    {
+                        "hitTime": 0
+                    },
+                    {
+                        "hitTime": 0.5
+                    }
+                ]
+            }
+        },
+        {
+            "notes": {
+                "2": [
+                    {
+                        "hitTime": 0
+                    },
+                    {
+                        "hitTime": 0.5
+                    }
+                ],
+                "5": [
+                    {
+                        "hitTime": 0
+                    },
+                    {
+                        "hitTime": 0.5
+                    }
+                ]
+            }
+        },
+        {
+            "notes": {
+                "4": [
+                    {
+                        "hitTime": 0
+                    },
+                    {
+                        "hitTime": 0.2
+                    },
+                    {
+                        "hitTime": 0.5
+                    }
+                ],
+                "6": [
+                    {
+                        "hitTime": 0
+                    },
+                    {
+                        "hitTime": 0.7
+                    },
+                    {
+                        "hitTime": 0.5
+                    }
+                ],
+                "3": [
+                    {
+                        "hitTime": 0.8
+                    }
+                ]
+            }
+        }
+    ]
+}

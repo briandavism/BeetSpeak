@@ -48,8 +48,6 @@ public class BeetspeakInputModule : BaseInputModule
 
         var toSelect = eventSystem.currentSelectedGameObject;
         if (toSelect == null)
-            toSelect = eventSystem.lastSelectedGameObject;
-        if (toSelect == null)
             toSelect = eventSystem.firstSelectedGameObject;
 
         eventSystem.SetSelectedGameObject(null, GetBaseEventData());

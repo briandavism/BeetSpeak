@@ -1,58 +1,53 @@
 ﻿using System.Collections.Generic;
+using Configs;
 using UnityEngine;
 
 namespace MusicalRepresentation
 {
     public class Measure : MonoBehaviour
     {
-        public Row redRow;
-        public Row orangeRow;
-        public Row yellowRow;
-        public Row greenRow;
-        public Row blueRow;
-        public Row purpleRow;
+        public Row rowPrefab;
+        public Transform rowHolder;
+
+        private Row _redRow;
+        private Row _orangeRow;
+        private Row _yellowRow;
+        private Row _greenRow;
+        private Row _blueRow;
+        private Row _purpleRow;
 
         private List<Row> _rowList;
         private System.DateTime _start;
-        private Score _score;
         private RectTransform _rectTransform;
         private bool _isReset = true;
 
-        private void Awake()
+        public void Init(MeasureConfig config)
         {
-            _score = this.transform.GetComponentInParent<Score>();
             _rectTransform = (RectTransform) this.transform;
-
             _rowList = new List<Row>();
 
-            foreach (var instrument in InstrumentHelper.GetInstrumentList())
+            var instrumentList = InstrumentHelper.GetInstrumentList();
+            foreach (var instrument in instrumentList)
             {
-                var row = GetRowForInstrument(instrument);
-                if (row != null)
+                List<NoteConfig> noteList;
+                if (!config.notes.TryGetValue(instrument, out noteList))
                 {
-                    _rowList.Add(row);
+                    noteList = new List<NoteConfig>();
                 }
-            }
-        }
-
-        // Use this for initialization
-        void Start()
-        {
-            foreach (var instrument in InstrumentHelper.GetInstrumentList())
-            {
-                var row = GetRowForInstrument(instrument);
-                row.Init(InstrumentHelper.GetColorForInstrument(instrument));
+                var row = Instantiate(rowPrefab, rowHolder);
+                row.Init(InstrumentHelper.GetColorForInstrument(instrument), noteList);
+                _rowList.Add(row);
+                SetRowForInstrument(instrument,row);
             }
         }
 
         public void Draw(float relativeTime)
         {
-        
         }
-    
+
         public Vector3 GetLocationForTime(float time)
         {
-            var pos = this.transform.position;
+            var pos = transform.position;
             var xloc = Mathf.Lerp(_rectTransform.rect.xMin, _rectTransform.rect.xMax, time);
             pos.x += xloc;
             return pos;
@@ -83,22 +78,50 @@ namespace MusicalRepresentation
             switch (instrument)
             {
                 case Instrument.Red:
-                    return redRow;
+                    return _redRow;
                 case Instrument.Orange:
-                    return orangeRow;
+                    return _orangeRow;
                 case Instrument.Yellow:
-                    return yellowRow;
+                    return _yellowRow;
                 case Instrument.Green:
-                    return greenRow;
+                    return _greenRow;
                 case Instrument.Blue:
-                    return blueRow;
+                    return _blueRow;
                 case Instrument.Purple:
-                    return purpleRow;
+                    return _purpleRow;
                 default:
                     Debug.LogError("No row found for: " + instrument.ToString());
                     return null;
             }
         }
 
+        public void SetRowForInstrument(Instrument instrument, Row row)
+        {
+            row.gameObject.name = instrument.ToString() + "Row";
+            switch (instrument)
+            {
+                case Instrument.Red:
+                    _redRow = row;
+                    break;
+                case Instrument.Orange:
+                    _orangeRow = row;
+                    break;
+                case Instrument.Yellow:
+                    _yellowRow = row;
+                    break;
+                case Instrument.Green:
+                    _greenRow = row;
+                    break;
+                case Instrument.Blue:
+                    _blueRow = row;
+                    break;
+                case Instrument.Purple:
+                    _purpleRow = row;
+                    break;
+                default:
+                    Debug.LogError("No row found for: " + instrument.ToString());
+                    break;
+            }
+        }
     }
 }

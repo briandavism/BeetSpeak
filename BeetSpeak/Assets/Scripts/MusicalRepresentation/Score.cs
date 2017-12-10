@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Configs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,29 +8,47 @@ namespace MusicalRepresentation
     public class Score : MonoBehaviour
     {
         public Image timeMarker;
+        public Transform gridLayout;
+        public Measure measurePrefab;
 
         private List<Measure> _measures;
         private float _scoreLength;
 
         private void Awake()
         {
-            _measures = new List<Measure>(this.GetComponentsInChildren<Measure>());
-            _scoreLength = ((float) _measures.Count) * MusicCore.Instance.measureLength;
+            MusicCore.Instance.RegisterScore(this);
         }
 
-        private void Start()
+        public void Init(SongConfig config)
         {
-            MusicCore.Instance.RegisterScore(this);
+            for(int i = 0; i<gridLayout.childCount; i++)
+            {
+                Destroy(gridLayout.GetChild(i).gameObject);
+            }
+            
+            _measures = new List<Measure>();
+            
+            foreach (var measure in config.measures)
+            {
+                var measureObj = Instantiate(measurePrefab, gridLayout);
+                measureObj.Init(measure);
+                _measures.Add(measureObj);
+            }
+            
+            _scoreLength = ((float) _measures.Count) * MusicCore.Instance.measureLength;
         }
 
         void Update()
         {
-            var absoluteTime = RhythmCore.Instance.GetAbsoluteTime();
-            var currentMeasure = GetMeasureAtTime(absoluteTime);
-            timeMarker.transform.position = currentMeasure.GetLocationForTime(GetRelativeTime(absoluteTime));
+            if (_measures != null && (_measures.Count > 0))
+            {    
+                var absoluteTime = RhythmCore.Instance.GetAbsoluteTime();
+                var currentMeasure = GetMeasureAtTime(absoluteTime);
+                timeMarker.transform.position = currentMeasure.GetLocationForTime(GetRelativeTime(absoluteTime));
 
-            var nextMeasure = GetMeasureAtTime(absoluteTime + MusicCore.Instance.measureLength);
-            nextMeasure.ResetMeasure();
+                var nextMeasure = GetMeasureAtTime(absoluteTime + MusicCore.Instance.measureLength);
+                nextMeasure.ResetMeasure();
+            }
         }
 
         public void Draw(float absoluteTime)

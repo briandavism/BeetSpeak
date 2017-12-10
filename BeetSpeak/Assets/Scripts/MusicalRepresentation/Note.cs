@@ -1,23 +1,34 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using Configs;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace MusicalRepresentation
 {
     public class Note : MonoBehaviour, System.IComparable
     {
-        public float hitTime;
-        public float visualLength;
+        private float _visualLength;
         public Image noteVisual;
 
         private Color _color = Color.magenta;
         private bool _wasHit = false;
-        private Row _row;
 
-        public void Init(Color color, Row row)
+        public float HitTime { get; private set; }
+
+        public void Init(Color color, NoteConfig config, Row row)
         {
-            _row = row;
             _color = color;
             noteVisual.color = Color.black;
+            HitTime = config.hitTime;
+            _visualLength = config.visualLength;
+            StartCoroutine(SetLocation(row));
+        }
+
+        private IEnumerator SetLocation(Row row)
+        {
+            yield return null;
+            
+            transform.position = row.GetVectorLocationForTime(HitTime);
         }
 
         public void Reset()
@@ -36,7 +47,7 @@ namespace MusicalRepresentation
                 {
                     noteVisual.color = _color;
                 }
-                
+
                 return _wasHit;
             }
             else
@@ -48,7 +59,7 @@ namespace MusicalRepresentation
         public int CompareTo(object other)
         {
             var otherNote = (Note) other;
-            return hitTime.CompareTo(otherNote.hitTime);
+            return HitTime.CompareTo(otherNote.HitTime);
         }
     }
 }
