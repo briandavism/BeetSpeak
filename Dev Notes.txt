@@ -1,0 +1,7 @@
+notes are % of measure.
+measure length somewhat variable?
+tolerance (x before and y after allowed)
+6 instruments in colors: red orange yellow green blue purple
+
+visual: hit and fade w/ some idea of length
+faded back bars to give idea of quarter notes etc.
